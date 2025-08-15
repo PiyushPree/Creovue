@@ -3,6 +3,7 @@ package com.creovue.Creovue.entity;
 import jakarta.persistence.*;
 import com.creovue.Creovue.entity.User;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class WorkExperience {
@@ -19,6 +20,7 @@ public class WorkExperience {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     public WorkExperience() {
