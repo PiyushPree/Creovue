@@ -22,6 +22,9 @@ public class RoleType {
         this.roleName = roleName;
     }
 
+    public RoleType(String developer) {
+    }
+
     public Long getId() {
         return id;
     }

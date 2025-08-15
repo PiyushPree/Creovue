@@ -17,9 +17,11 @@ public class ExperienceLevel {
         this.levelName = levelName;
     }
 
-    public ExperienceLevel(long id, String levelName) {
-        this.id = id;
-        this.levelName = levelName;
+    public ExperienceLevel() {
+
+    }
+
+    public ExperienceLevel(String beginner) {
     }
 
     public long getId() {

@@ -40,6 +40,7 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
+    // 👤 User Registration Logic
     public User registerUser(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already in use");
@@ -65,7 +66,7 @@ public class AuthService {
         }
         user.setRoles(roles);
 
-        // Save user first to generate ID
+        // Save user to generate ID
         User savedUser = userRepository.save(user);
 
         // Save Work Experience
@@ -87,23 +88,35 @@ public class AuthService {
         return savedUser;
     }
 
+    // 🪙 Login and Generate JWT
+    public String loginUser(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        return jwtService.generateToken(user);
+    }
+
+    // 🌱 Seed default data
     @PostConstruct
     public void seedDefaults() {
         if (roleTypeRepository.count() == 0) {
             roleTypeRepository.saveAll(List.of(
-                    new RoleType(null, "Developer"),
-                    new RoleType(null, "Writer"),
-                    new RoleType(null, "Designer"),
-                    new RoleType(null, "Director")
+                    new RoleType("Developer"),
+                    new RoleType("Writer"),
+                    new RoleType("Designer"),
+                    new RoleType("Director")
             ));
         }
 
         if (experienceLevelRepository.count() == 0) {
             experienceLevelRepository.saveAll(List.of(
-                    new ExperienceLevel(null, "Beginner"),
-                    new ExperienceLevel(null, "Intermediate"),
-                    new ExperienceLevel(null, "Expert")
+                    new ExperienceLevel("Beginner"),
+                    new ExperienceLevel("Intermediate"),
+                    new ExperienceLevel("Expert")
             ));
         }
     }

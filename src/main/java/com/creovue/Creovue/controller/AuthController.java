@@ -1,5 +1,6 @@
 package com.creovue.Creovue.controller;
 
+import com.creovue.Creovue.dto.LoginRequest;
 import com.creovue.Creovue.dto.SignupRequest;
 import com.creovue.Creovue.entity.User;
 import com.creovue.Creovue.service.AuthService;
@@ -20,5 +21,9 @@ public class AuthController {
         return ResponseEntity.ok(createdUser);
     }
 
-    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        String token = authService.loginUser(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(token);
+    }
 }

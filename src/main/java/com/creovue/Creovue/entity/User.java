@@ -32,7 +32,7 @@ public class User {
     @JoinColumn(name = "experience_level_id")
     private ExperienceLevel experienceLevel;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
