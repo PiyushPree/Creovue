@@ -66,4 +66,12 @@ public class ProfileController {
 
         return ResponseEntity.ok(portfolioRepository.save(portfolio));
     }
+
+    @GetMapping("/portfolios/my")
+    public ResponseEntity<?> getMyPortfolios(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return ResponseEntity.ok(portfolioRepository.findByUser(user));
+    }
 }

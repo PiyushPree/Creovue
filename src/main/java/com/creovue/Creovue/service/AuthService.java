@@ -105,7 +105,7 @@ public class AuthService {
     public void seedDefaults() {
         if (roleTypeRepository.count() == 0) {
             roleTypeRepository.saveAll(List.of(
-                    new RoleType("Developer"),
+                    new RoleType("Actor"),
                     new RoleType("Writer"),
                     new RoleType("Designer"),
                     new RoleType("Director")
