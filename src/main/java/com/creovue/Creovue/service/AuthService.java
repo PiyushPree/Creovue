@@ -62,6 +62,14 @@ public class AuthService {
         for (Long roleId : request.getRoleIds()) {
             RoleType role = roleTypeRepository.findById(roleId)
                     .orElseThrow(() -> new RuntimeException("Role not found with ID: " + roleId));
+
+            // Ensure role name has ROLE_ prefix
+            String prefixedRoleName = role.getRoleName().startsWith("ROLE_")
+                    ? role.getRoleName()
+                    : "ROLE_" + role.getRoleName().toUpperCase();
+
+            // update role if needed
+            role.setRoleName(prefixedRoleName);
             roles.add(role);
         }
         user.setRoles(roles);

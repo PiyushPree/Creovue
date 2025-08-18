@@ -1,43 +1,23 @@
 package com.creovue.Creovue.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RoleType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String roleName;
+    @Column(unique = true, nullable = false)
+    private String roleName; // e.g. ROLE_MEDIA_HOUSE
 
-    public RoleType(){
-
-    }
-
-    public RoleType(Long id, String roleName) {
-        this.id = id;
-        this.roleName = roleName;
-    }
-
-    public RoleType(String developer) {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public RoleType(String writer) {
     }
 }

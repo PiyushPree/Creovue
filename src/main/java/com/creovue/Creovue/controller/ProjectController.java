@@ -21,14 +21,19 @@ public class ProjectController {
     @Autowired
     private UserRepository userRepository;
 
-    @PreAuthorize("hasRole('MEDIA_HOUSE')")
     @PostMapping
     public Project createProject(@RequestBody Project project, Authentication authentication) {
         String email = authentication.getName();
         User mediaHouse = userRepository.findByEmail(email).orElseThrow();
+
+        if (!"MEDIA_HOUSE".equals(mediaHouse.getUserType().name())) {
+            throw new RuntimeException("Only MEDIA_HOUSE users can create projects");
+        }
+
         project.setCreatedBy(mediaHouse);
         return projectRepository.save(project);
     }
+
 
     @GetMapping
     public List<Project> getAllProjects() {
