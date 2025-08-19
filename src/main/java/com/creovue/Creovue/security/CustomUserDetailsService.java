@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,12 +23,24 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
+        // MAIN FIX: Grant authority based on userType
+        List<SimpleGrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority("ROLE_" + user.getUserType().name())
+        );
+
+        // Optionally, also add creator's specific roles (Actor, Writer) as extra authorities
+        if (user.getUserType().name().equals("CREATOR")) {
+            authorities = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
+                    .collect(Collectors.toList());
+            // Add CREATOR as well
+            authorities.add(new SimpleGrantedAuthority("ROLE_CREATOR"));
+        }
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPasswordHash(),
-                user.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                        .collect(Collectors.toList())
+                authorities
         );
     }
 }

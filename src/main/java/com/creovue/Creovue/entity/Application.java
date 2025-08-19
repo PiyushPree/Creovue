@@ -1,10 +1,7 @@
 package com.creovue.Creovue.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -17,12 +14,13 @@ public class Application {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id", nullable = false)
     private User creator; // who applied
 
-    private String status; // e.g. PENDING, ACCEPTED, REJECTED
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 }
