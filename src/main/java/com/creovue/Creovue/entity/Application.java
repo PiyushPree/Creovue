@@ -3,12 +3,15 @@ package com.creovue.Creovue.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Application {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +22,17 @@ public class Application {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
-    private User creator; // who applied
+    private User creator;
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
+
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+    }
 }
+

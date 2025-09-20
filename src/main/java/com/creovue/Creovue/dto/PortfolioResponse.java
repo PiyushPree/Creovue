@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ProjectResponse {
+public class PortfolioResponse {
     private Long id;
     private String title;
     private String description;
-    private String createdByName; // 👈 add this
+    private String link;
 }

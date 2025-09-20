@@ -1,12 +1,11 @@
 package com.creovue.Creovue.controller;
 
-import com.creovue.Creovue.entity.Project;
-import com.creovue.Creovue.entity.User;
-import com.creovue.Creovue.repository.ProjectRepository;
-import com.creovue.Creovue.repository.UserRepository;
+import com.creovue.Creovue.dto.ProjectRequest;
+import com.creovue.Creovue.dto.ProjectResponse;
+import com.creovue.Creovue.service.ProjectService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +15,20 @@ import java.util.List;
 public class ProjectController {
 
     @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private ProjectService projectService;
 
     @PostMapping
-    public Project createProject(@RequestBody Project project, Authentication authentication) {
-        String email = authentication.getName();
-        User mediaHouse = userRepository.findByEmail(email).orElseThrow();
-
-        if (!"MEDIA_HOUSE".equals(mediaHouse.getUserType().name())) {
-            throw new RuntimeException("Only MEDIA_HOUSE users can create projects");
-        }
-
-        project.setCreatedBy(mediaHouse);
-        return projectRepository.save(project);
+    public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody ProjectRequest request) {
+        return ResponseEntity.ok(projectService.createProject(request));
     }
 
-
     @GetMapping
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
+        return ResponseEntity.ok(projectService.getAllProjects());
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ProjectResponse>> getProjectsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(projectService.getProjectsByUser(userId));
     }
 }
