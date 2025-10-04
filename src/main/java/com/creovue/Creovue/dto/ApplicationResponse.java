@@ -14,5 +14,6 @@ public class ApplicationResponse {
     private String projectTitle;
     private String creatorName;
     private String creatorEmail;
+    private Long creatorId;
     private LocalDateTime appliedAt;
 }

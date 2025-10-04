@@ -12,7 +12,15 @@ public class Project {
 
     private String title;
     private String description;
+    private Integer vacancies;
 
+    private String link;
+
+    private boolean closed = false;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] image;
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;

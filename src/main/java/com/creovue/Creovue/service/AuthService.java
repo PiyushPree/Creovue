@@ -62,14 +62,6 @@ public class AuthService {
         for (Long roleId : request.getRoleIds()) {
             RoleType role = roleTypeRepository.findById(roleId)
                     .orElseThrow(() -> new RuntimeException("Role not found with ID: " + roleId));
-
-            // Ensure role name has ROLE_ prefix
-            String prefixedRoleName = role.getRoleName().startsWith("ROLE_")
-                    ? role.getRoleName()
-                    : "ROLE_" + role.getRoleName().toUpperCase();
-
-            // update role if needed
-            role.setRoleName(prefixedRoleName);
             roles.add(role);
         }
         user.setRoles(roles);
@@ -116,7 +108,13 @@ public class AuthService {
                     new RoleType("Actor"),
                     new RoleType("Writer"),
                     new RoleType("Designer"),
-                    new RoleType("Director")
+                    new RoleType("Director"),
+                    new RoleType("Small Scale Media House"),
+                    new RoleType("Medium Scale Media House"),
+                    new RoleType("Big Scale Media House"),
+                    new RoleType("Small Scale Production House"),
+                    new RoleType("Medium Scale Production House"),
+                    new RoleType("Large Scale Production House")
             ));
         }
 

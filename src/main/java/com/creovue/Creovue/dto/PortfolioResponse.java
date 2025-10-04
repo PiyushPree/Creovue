@@ -10,4 +10,5 @@ public class PortfolioResponse {
     private String title;
     private String description;
     private String link;
+    private Long userId;
 }

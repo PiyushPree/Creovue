@@ -49,6 +49,8 @@ public class PortfolioService {
                 .title(portfolio.getTitle())
                 .description(portfolio.getDescription())
                 .link(portfolio.getLink())
+                .userId(portfolio.getUser().getId())
                 .build();
     }
+
 }

@@ -57,4 +57,14 @@ public class JwtService {
 
         return claims.getExpiration().before(new Date());
     }
+    public Long extractId(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return Long.valueOf(claims.get("id").toString());
+    }
+
 }

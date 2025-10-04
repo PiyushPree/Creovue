@@ -16,8 +16,9 @@ public class RoleType {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String roleName; // e.g. ROLE_MEDIA_HOUSE
+    private String roleName; // e.g. "Actor", "Writer", "Designer"
 
-    public RoleType(String writer) {
+    public RoleType(String roleName) {
+        this.roleName = roleName;
     }
 }
